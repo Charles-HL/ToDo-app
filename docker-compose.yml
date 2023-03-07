@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+      POSTGRES_SCHEMA: myschema
+      POSTGRES_INITDB_WALDIR: /var/lib/postgresql/data/pg_wal
+      POSTGRES_INITDB_ARGS: "--auth-host=trust --auth-local=trust --encoding=UTF8 --locale=C --lc-collate=C --lc-ctype=C --create-schema=myschema"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+volumes:
+  db_data:
