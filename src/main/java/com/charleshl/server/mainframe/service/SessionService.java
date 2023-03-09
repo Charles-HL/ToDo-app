@@ -44,7 +44,7 @@ public class SessionService {
      * SessionInfo
      */
     @Data
-    private static class SessionInfo {
+    static class SessionInfo {
 
         /**
          * username

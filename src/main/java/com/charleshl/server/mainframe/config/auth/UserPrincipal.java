@@ -1,6 +1,7 @@
 package com.charleshl.server.mainframe.config.auth;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import com.charleshl.server.mainframe.entity.UserDO;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,8 +36,7 @@ public class UserPrincipal implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Implement method to return the authorities granted to the user (e.g. ROLE_USER, ROLE_ADMIN)
-        return null;
+        return Collections.emptyList();
     }
 
     /**

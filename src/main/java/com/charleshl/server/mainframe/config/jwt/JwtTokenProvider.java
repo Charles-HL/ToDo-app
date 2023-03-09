@@ -49,7 +49,7 @@ public class JwtTokenProvider {
      *
      * @return A random secret key.
      */
-    public static String generateJwtSecret() {
+    static String generateJwtSecret() {
         SecureRandom random = new SecureRandom();
         byte[] secretBytes = new byte[JWT_SECRET_KEY_LENGTH];
         random.nextBytes(secretBytes);
