@@ -3,7 +3,7 @@ CREATE SCHEMA IF NOT EXISTS myschema;
 CREATE TABLE IF NOT EXISTS myschema.users (
   id SERIAL PRIMARY KEY,
   username TEXT NOT NULL,
-  password TEXT NOT NULL,
+  password TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS myschema.tasks (

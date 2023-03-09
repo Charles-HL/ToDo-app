@@ -1,7 +1,7 @@
-package com.charleshl.todoapp.service;
+package com.charleshl.server.todoapp.service;
 
-import com.charleshl.todoapp.entity.Task;
-import com.charleshl.todoapp.repository.TaskRepository;
+import com.charleshl.server.todoapp.entity.TaskDO;
+import com.charleshl.server.todoapp.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,16 +15,16 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public List<Task> getAllTasks() {
+    public List<TaskDO> getAllTasks() {
         return taskRepository.findAll();
     }
 
-    public Optional<Task> getTaskById(Long id) {
+    public Optional<TaskDO> getTaskById(Long id) {
         return taskRepository.findById(id);
     }
 
-    public Task saveTask(Task task) {
-        return taskRepository.save(task);
+    public TaskDO saveTask(TaskDO taskDO) {
+        return taskRepository.save(taskDO);
     }
 
     public void deleteTask(Long id) {
