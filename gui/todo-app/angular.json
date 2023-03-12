@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/flag-icon-css/css/flag-icons.min.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -93,6 +94,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/flag-icon-css/css/flag-icons.min.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -100,5 +102,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "f178c3bd-81d5-449a-9a74-6fcaf81622e8"
   }
 }

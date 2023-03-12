@@ -1,0 +1,32 @@
+.bg {
+  /* The image used */
+  //background-image: url("../../assets/background.jpg");
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.toolbar{
+    z-index: 1;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .left {
+        flex: 1;
+      }
+      
+    .center {
+    flex: 1;
+    text-align: center;
+    }
+    
+    .right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    }
+}

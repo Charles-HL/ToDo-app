@@ -1,0 +1,22 @@
+<div class="bg">
+    <mat-toolbar color="primary" class="toolbar">
+        <div class="left">
+            <button mat-icon-button aria-label="menu icon">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+        <div class="center">
+            <span>ToDo</span>
+        </div>
+        <div class="right">       
+            <button mat-icon-button aria-label="toggle theme" (click)="toggleTheme()">
+                <mat-icon *ngIf="isDarkTheme">brightness_7</mat-icon>
+                <mat-icon *ngIf="!isDarkTheme">brightness_4</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="exit_to_app icon">
+                <mat-icon>exit_to_app</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+</div>
