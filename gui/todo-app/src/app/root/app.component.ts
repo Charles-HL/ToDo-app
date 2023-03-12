@@ -4,15 +4,14 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
+  OnDestroy,
   Renderer2,
 } from '@angular/core';
 import { OnInit } from '@angular/core';
-
-interface Language {
-  code: string;
-  label: string;
-  icon: string;
-}
+import { AuthService } from '../core/services/auth.service';
+import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +19,7 @@ interface Language {
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'todo-app';
   private darkTheme = 'default-theme-dark';
   private lightTheme = 'default-theme-light';
@@ -28,22 +27,46 @@ export class AppComponent implements OnInit {
   isDarkTheme = false;
 
 
-  selectedLanguage: Language = { code: 'en', label: 'English', icon: 'us' };
-  languages: Language[] = [
-    { code: 'en', label: 'English', icon: 'us' },
-    { code: 'fr', label: 'Français', icon: 'fr' },
-    { code: 'es', label: 'Español', icon: 'es' },
-    { code: 'de', label: 'Deutsch', icon: 'de' }
+  languages = [
+    { name: 'English', code: 'en', flag: 'assets/flags/4x3/gb.svg' },
+    { name: 'Français', code: 'fr', flag: 'assets/flags/4x3/fr.svg' },
   ];
+
+  selectedLanguage = this.languages[0].code;
+
+  private subs: Subscription[] = [];
+  isLogged = false;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private cdr: ChangeDetectorRef,
-    private renderer: Renderer2
-  ) {}
+    private renderer: Renderer2,
+    private authService: AuthService,
+    private translate: TranslateService,
+    private cookieService: CookieService
+  ) {
+    this.subs.push(
+      this.authService.isLoggedSubject$.subscribe((isLogged) =>
+        this.isLogged = isLogged
+      )
+    );
+    this.translate.addLangs(this.languages.map((lang) => lang.code));
+
+    let langFromCookie =  this.cookieService.get('todo-app-current-lang');
+
+    if (langFromCookie) {
+      this.selectedLanguage = langFromCookie;
+    }
+    this.cookieService.set('todo-app-current-lang', this.selectedLanguage);
+    this.translate.setDefaultLang(this.selectedLanguage);
+  }
 
   ngOnInit() {
     this.setTheme();
+  }
+
+  ngOnDestroy() {
+    this.subs.forEach((sub) => (sub ? sub.unsubscribe() : null));
   }
 
   private setTheme() {
@@ -57,8 +80,11 @@ export class AppComponent implements OnInit {
     this.setTheme();
   }
 
-  changeLanguage() {
-    // Implement the logic to change the language here
+  changeLanguage(language: any) {
+    this.selectedLanguage = language.code;
+    this.translate.use(this.selectedLanguage);
+    this.cookieService.set('todo-app-current-lang', this.selectedLanguage);
+
   }
   
 

@@ -1,28 +1,28 @@
 <div class="login-container">
-<mat-card class="login-card">
-    <mat-card-title class="login-title themed-font-color">
-      <h2>Login</h2></mat-card-title>
-    <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-        <mat-form-field>
-          <input matInput formControlName="username" placeholder="Username" type="text" required>
-          <mat-error *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
-            <span *ngIf="loginForm.controls['username']?.errors?.['required']">Username is required.</span>
+  <mat-card class="login-card">
+      <mat-card-title class="login-title themed-font-color">
+        <h2>{{ 'Login' | translate }}</h2></mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          <mat-form-field>
+            <input matInput formControlName="username" placeholder="{{ 'Username' | translate }}" type="text" required>
+            <mat-error *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
+              <span *ngIf="loginForm.controls['username']?.errors?.['required']">{{ 'Username is required.' | translate }}</span>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="password" placeholder="{{ 'Password' | translate }}" type="password" required>
+            <mat-error *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+              <span *ngIf="loginForm.controls['password'].errors?.['required']">{{ 'Password is required.' | translate }}</span>
+            </mat-error>
+          </mat-form-field>
+      
+          <button mat-raised-button class="login-button" color="primary" type="submit" [disabled]="loginForm.invalid">{{ 'Login' | translate }}</button>
+          <mat-error *ngIf="isloginError">
+            <span>{{loginErrorMsg | translate }}</span>
           </mat-error>
-        </mat-form-field>
-  
-        <mat-form-field>
-          <input matInput formControlName="password" placeholder="Password" type="password" required>
-          <mat-error *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
-            <span *ngIf="loginForm.controls['password'].errors?.['required']">Password is required.</span>
-          </mat-error>
-        </mat-form-field>
-  
-        <button mat-raised-button class="login-button" color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
-        <mat-error *ngIf="isloginError">
-          <span>{{loginErrorMsg}}</span>
-        </mat-error>
-      </form>
-    </mat-card-content>
-  </mat-card>
+        </form>
+      </mat-card-content>
+    </mat-card>
 </div>
+      

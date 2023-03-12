@@ -12,8 +12,11 @@ import {MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { PopUpModule } from '../shared/pop-up/pop-up.module';
 //import {NgxMatDrmCountriesFlagsModule} from 'ngx-mat-drm-countries-flags';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from '../core/interceptors/token.interceptor';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,15 @@ import { TokenInterceptor } from '../core/interceptors/token.interceptor';
     MatButtonModule,
     BrowserAnimationsModule,
     PopUpModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSlideToggleModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httptTranslateLoader,
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [
     {
@@ -42,3 +53,8 @@ import { TokenInterceptor } from '../core/interceptors/token.interceptor';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+// AOT compilation support
+export function httptTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
