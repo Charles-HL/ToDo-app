@@ -2,13 +2,10 @@ package com.charleshl.server.mainframe.controller;
 
 import com.charleshl.server.mainframe.config.auth.UserPrincipal;
 import com.charleshl.server.mainframe.config.jwt.JwtTokenProvider;
-import com.charleshl.server.mainframe.dto.LoginDTO;
-import com.charleshl.server.mainframe.dto.LogoutDTO;
-import com.charleshl.server.mainframe.dto.SignupDTO;
+import com.charleshl.server.mainframe.dto.*;
 import com.charleshl.server.mainframe.entity.UserDO;
 import com.charleshl.server.mainframe.service.SessionService;
 import com.charleshl.server.mainframe.repository.UserRepository;
-import com.charleshl.server.mainframe.dto.LoginResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -79,21 +76,28 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signup(SignupDTO signupDTO) {
+    public ResponseEntity<CreateUserResponseDTO> signup(SignupDTO signupDTO) {
+        CreateUserResponseDTO createUserResponseDTO = new CreateUserResponseDTO();
         // Check if username and password not null and not empty
         if (signupDTO.getUsername() == null || signupDTO.getUsername().isEmpty() ||
                 signupDTO.getPassword() == null || signupDTO.getPassword().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            createUserResponseDTO.setSuccess(false);
+            createUserResponseDTO.setMessage("Username or password cannot be empty");
+            return new ResponseEntity<>(createUserResponseDTO, HttpStatus.OK);
         }
         // Check if user already exists
         if (userRepository.findByUsername(signupDTO.getUsername()) != null) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            createUserResponseDTO.setSuccess(false);
+            createUserResponseDTO.setMessage("User already exists");
+            return new ResponseEntity<>(createUserResponseDTO, HttpStatus.OK);
         }
         // Create new user
         UserDO userDO = new UserDO();
         userDO.setUsername(signupDTO.getUsername());
         userDO.setPassword(passwordEncoder.encode(signupDTO.getPassword()));
         userRepository.save(userDO);
+        createUserResponseDTO.setSuccess(true);
+        createUserResponseDTO.setMessage("User created successfully");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -118,7 +122,7 @@ public class AuthController {
      * @return ResponseEntity
      */
     @PostMapping("/keep-alive")
-    public ResponseEntity<Void> keepAlive() {
+    public ResponseEntity<Void> postKeepAlive() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

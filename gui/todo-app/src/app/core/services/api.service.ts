@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpContext, HttpErrorResponse, HttpEvent, HttpHeaders, HttpParameterCodec, HttpResponse } from '@angular/common/http';
 import { Login } from 'src/app/shared/models/dto/login';
-import { LoginResponse } from 'src/app/shared/models/dto/loginResponse';
+import { Signup } from 'src/app/shared/models/dto/signup';
 
 @Injectable({
   providedIn: 'root',
@@ -18,16 +18,27 @@ export class ApiService {
     }
     
     public postAuthlogin(loginDto: Login): Observable<any> {
-        let username = loginDto.username;
-        let password = loginDto.password;
         const url = `${this.baseUrl}/login`;
-        const body = { username, password };
+        const body = loginDto;
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post(url, body, { headers });
     }
     
     public postAuthLogout(): Observable<any> {
         const url = `${this.baseUrl}/logout`;
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post(url, { headers });
+    }
+
+    public postSignup(signupDto: Signup): Observable<any> {
+        const url = `${this.baseUrl}/signup`;
+        const body = signupDto;
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post(url, body, { headers });
+    }
+
+    public postKeepAlive(): Observable<any> {
+        const url = `${this.baseUrl}/keep-alive`;
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post(url, { headers });
     }

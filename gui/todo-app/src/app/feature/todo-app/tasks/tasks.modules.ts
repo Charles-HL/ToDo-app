@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input'
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
       extend: true
     }),
     MatInputModule,
+    MatCardModule,
     ReactiveFormsModule
   ]
 })

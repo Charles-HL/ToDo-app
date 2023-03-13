@@ -15,7 +15,7 @@
                 <mat-icon *ngIf="isDarkTheme">brightness_7</mat-icon>
                 <mat-icon *ngIf="!isDarkTheme">brightness_4</mat-icon>
             </button>
-            <button *ngIf="isLogged" mat-icon-button aria-label="exit_to_app icon">
+            <button (click)="logout()" *ngIf="isLogged" mat-icon-button aria-label="exit_to_app icon">
                 <mat-icon>exit_to_app</mat-icon>
             </button>
         </div>

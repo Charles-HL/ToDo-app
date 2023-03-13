@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {MatCardModule} from '@angular/material/card';
     MatFormFieldModule,
     MatButtonModule,
     MatCardModule,
+    MatIconModule,
     TranslateModule.forChild({
       extend: true
     }),

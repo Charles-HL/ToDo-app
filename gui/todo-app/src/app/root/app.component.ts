@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private darkTheme = 'default-theme-dark';
   private lightTheme = 'default-theme-light';
 
-  isDarkTheme = false;
+  isDarkTheme: boolean = false;
 
 
   languages = [
@@ -45,6 +45,14 @@ export class AppComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private cookieService: CookieService
   ) {
+    let isDarkThemeFromCookie =  this.cookieService.get('todo-app-is-dark');
+
+    if (isDarkThemeFromCookie) {
+      this.isDarkTheme = JSON.parse(isDarkThemeFromCookie);
+    }
+    this.cookieService.set('todo-app-is-dark', JSON.stringify(this.isDarkTheme));
+
+
     this.subs.push(
       this.authService.isLoggedSubject$.subscribe((isLogged) =>
         this.isLogged = isLogged
@@ -73,6 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.renderer.removeClass(this.document.body, this.isDarkTheme ? this.lightTheme : this.darkTheme);
     this.renderer.addClass(this.document.body, this.isDarkTheme ? this.darkTheme : this.lightTheme);
     this.cdr.detectChanges();
+    this.cookieService.set('todo-app-is-dark', JSON.stringify(this.isDarkTheme));
   }
 
   toggleTheme() {
@@ -87,5 +96,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   }
   
-
+  logout(){
+    this.authService.logout();
+  }
 }

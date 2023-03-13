@@ -2,6 +2,7 @@ package com.charleshl.server.mainframe.controller;
 
 import com.charleshl.server.mainframe.config.auth.UserPrincipal;
 import com.charleshl.server.mainframe.config.jwt.JwtTokenProvider;
+import com.charleshl.server.mainframe.dto.CreateUserResponseDTO;
 import com.charleshl.server.mainframe.dto.LoginDTO;
 import com.charleshl.server.mainframe.dto.LoginResponseDTO;
 import com.charleshl.server.mainframe.dto.SignupDTO;
@@ -20,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -83,10 +85,11 @@ public class AuthControllerTest {
         when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
 
         // Act
-        ResponseEntity<Void> responseEntity = authController.signup(signupDTO);
+        ResponseEntity<CreateUserResponseDTO> responseEntity = authController.signup(signupDTO);
 
         // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertTrue(responseEntity.getBody().isSuccess());
         verify(userRepository).save(argThat(user -> user.getUsername().equals("testuser") &&
                 user.getPassword().equals("encodedPassword")));
     }
