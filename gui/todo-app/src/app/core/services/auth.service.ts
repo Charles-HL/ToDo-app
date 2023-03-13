@@ -45,7 +45,7 @@ export class AuthService {
    * Logout method calling the API
    */
   logout() {
-    this.apiService.postAuthLogout().subscribe();
+    this.apiService.postAuthLogout({username: this.getLoggedUsername()!}).subscribe();
     this.logoutGui();
   }
 

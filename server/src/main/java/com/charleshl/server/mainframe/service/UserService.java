@@ -13,7 +13,6 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 @Service
-@Lazy
 public class UserService {
     private final UserRepository userRepository;
 

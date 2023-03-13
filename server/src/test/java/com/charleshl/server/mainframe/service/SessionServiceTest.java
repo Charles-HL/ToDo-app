@@ -36,7 +36,7 @@ class SessionServiceTest {
     }
 
     @Test
-    void testUpdateSession() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    void testUpdateSession() throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, InterruptedException {
         String username = "testuser";
         String token = "testtoken";
         sessionService.addSession(username, token);
@@ -47,6 +47,8 @@ class SessionServiceTest {
         Method getLastAccess = SessionService.SessionInfo.class.getDeclaredMethod("getLastAccess");
         getLastAccess.setAccessible(true);
         LocalDateTime oldLastAccess = (LocalDateTime) getLastAccess.invoke(map.get(username));
+        // wait for 1 second
+        Thread.sleep(1000);
         sessionService.updateSession(username);
         map = (Map) sessionMap.get(sessionService);
         LocalDateTime newLastAccess = (LocalDateTime) getLastAccess.invoke(map.get(username));

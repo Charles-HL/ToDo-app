@@ -9,9 +9,10 @@ import {
 } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { AuthService } from '../core/services/auth.service';
-import { Subscription } from 'rxjs';
+import { Subscription, delay } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
+import { LoadingService } from '../core/services/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
   isLogged = false;
+  loading: boolean = false;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -43,7 +45,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private authService: AuthService,
     private translate: TranslateService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private _loading: LoadingService
   ) {
     let isDarkThemeFromCookie =  this.cookieService.get('todo-app-is-dark');
 
@@ -71,6 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.setTheme();
+    this.listenToLoading();
   }
 
   ngOnDestroy() {
@@ -98,5 +102,17 @@ export class AppComponent implements OnInit, OnDestroy {
   
   logout(){
     this.authService.logout();
+  }
+
+  /**
+   * Listen to the loadingSub property in the LoadingService class. This drives the
+   * display of the loading spinner.
+   */
+  listenToLoading(): void {
+    this.subs.push(this._loading.loadingSub
+      .pipe(delay(0)) // This prevents a ExpressionChangedAfterItHasBeenCheckedError for subsequent requests
+      .subscribe((loading) => {
+        this.loading = loading;
+      }));
   }
 }

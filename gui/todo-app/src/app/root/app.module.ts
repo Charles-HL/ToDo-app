@@ -17,6 +17,7 @@ import { TokenInterceptor } from '../core/interceptors/token.interceptor';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     PopUpModule,
     HttpClientModule,
     MatSlideToggleModule,
+    MatProgressSpinnerModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

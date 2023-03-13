@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,13 +65,22 @@ public class AuthController {
      */
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LoginResponseDTO> login(LoginDTO loginDTO) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDTO.getUsername(), loginDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenProvider.createToken((UserPrincipal) authentication.getPrincipal());
-        sessionService.addSession(loginDTO.getUsername(), token);
         LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
-        loginResponseDTO.setToken(token);
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    loginDTO.getUsername(), loginDTO.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtTokenProvider.createToken((UserPrincipal) authentication.getPrincipal());
+            sessionService.addSession(loginDTO.getUsername(), token);
+            loginResponseDTO.setToken(token);
+            loginResponseDTO.setSuccess(true);
+            loginResponseDTO.setUsername(loginDTO.getUsername());
+        } catch (BadCredentialsException e) {
+            loginResponseDTO.setSuccess(false);
+            loginResponseDTO.setMessage("Username or password is incorrect");
+            return new ResponseEntity<>(loginResponseDTO, HttpStatus.OK);
+        }
         return new ResponseEntity<>(loginResponseDTO, HttpStatus.OK);
     }
 
@@ -98,7 +108,7 @@ public class AuthController {
         userRepository.save(userDO);
         createUserResponseDTO.setSuccess(true);
         createUserResponseDTO.setMessage("User created successfully");
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(createUserResponseDTO, HttpStatus.OK);
     }
 
     /**
@@ -106,8 +116,8 @@ public class AuthController {
      * @param logoutDTO logout DTO
      * @return ResponseEntity
      */
-    @PostMapping("/logout")
-    public ResponseEntity<Void> logout(LogoutDTO logoutDTO) {
+    @PostMapping("/signout")
+    public ResponseEntity<Void> signout(LogoutDTO logoutDTO) {
         // Check if the authenticated user is the same as the user to logout
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals(logoutDTO.getUsername())) {

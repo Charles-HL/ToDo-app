@@ -8,6 +8,7 @@
     "Create User": "Créer un utilisateur",
     "User creation": "Création d'un utilisateur",
     "Passwords do not match.": "Les mots de passe ne correspondent pas.",
-    "Create user": "Créer un utilisateur"
+    "Create user": "Créer un utilisateur",
+    "Username or password is incorrect": "Le nom d'utilisateur ou le mot de passe est incorrect"
 }
   

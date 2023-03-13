@@ -5,18 +5,20 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpErrorResponse,
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { catchError, tap } from 'rxjs/operators';
 import { PopupService } from '../services/popup.service';
-import { TranslateService } from '@ngx-translate/core';
+import { LoadingService } from '../services/loading.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     private popupService: PopupService,
+    private loading: LoadingService
   ) {}
 
   intercept(
@@ -28,16 +30,24 @@ export class TokenInterceptor implements HttpInterceptor {
     if (token && username) {
       request = request.clone({
         setHeaders: {
-          Authorization: token + ' ' + username,
+          Authorization: 'Bearer ' + token,
         },
       });
     }
     console.debug('New request', request);
+    if (!request.url.endsWith('/keep-alive')) {
+      this.loading.setLoading(true, request.url);
+    }
     return next.handle(request).pipe(
-      tap((httpEvent: HttpEvent<any>) =>
-        console.debug('Data received', httpEvent)
+      tap((httpEvent: HttpEvent<any>) => {
+          console.debug('Data received', httpEvent)
+          if (httpEvent instanceof HttpResponse) {
+            this.loading.setLoading(false, request.url);
+          }
+        }
       ),
       catchError((err: HttpErrorResponse) => {
+        this.loading.setLoading(false, request.url);
         if (err.status === 500) {
           this.authService.internalServerError(err);
         } else if (err.status === 401) {
