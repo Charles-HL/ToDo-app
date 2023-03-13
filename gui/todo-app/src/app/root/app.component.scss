@@ -1,0 +1,51 @@
+.bg {
+  /* The image used */
+  //background-image: url("../../assets/background.jpg");
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.toolbar{
+    z-index: 1;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .left {
+      display: flex;
+        flex: 1;
+      }
+      
+    .center {
+    flex: 1;
+    text-align: center;
+    }
+    
+    .right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    }
+
+    .black-and-white {
+      filter: grayscale(100%);
+    }
+    
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+ // background-color: rgba(0,0,0,0.32);
+  z-index: 5;
+}

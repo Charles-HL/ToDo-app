@@ -1,0 +1,17 @@
+.tasks-container {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    .task-list{
+        display: flex;
+        justify-content: center;
+        margin: 20px;
+        width: 100%;
+
+        .task-tile {
+            width: 40%;
+            color: white;
+          }
+    }
+}
