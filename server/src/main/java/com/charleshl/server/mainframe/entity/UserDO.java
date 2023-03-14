@@ -11,7 +11,7 @@ import lombok.Data;
 public class UserDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "username", columnDefinition = "VARCHAR(255)")
     private String username;

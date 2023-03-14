@@ -5,7 +5,7 @@ import com.charleshl.server.mainframe.config.jwt.JwtTokenProvider;
 import com.charleshl.server.mainframe.dto.*;
 import com.charleshl.server.mainframe.entity.UserDO;
 import com.charleshl.server.mainframe.service.SessionService;
-import com.charleshl.server.mainframe.repository.UserRepository;
+import com.charleshl.server.mainframe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,10 +34,10 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     /**
-     * User repository
+     * User service
      */
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     /**
      * Password encoder
@@ -96,7 +96,7 @@ public class AuthController {
             return new ResponseEntity<>(createUserResponseDTO, HttpStatus.OK);
         }
         // Check if user already exists
-        if (userRepository.findByUsername(signupDTO.getUsername()) != null) {
+        if (userService.getUserByUsername(signupDTO.getUsername()) != null) {
             createUserResponseDTO.setSuccess(false);
             createUserResponseDTO.setMessage("User already exists");
             return new ResponseEntity<>(createUserResponseDTO, HttpStatus.OK);
@@ -105,7 +105,7 @@ public class AuthController {
         UserDO userDO = new UserDO();
         userDO.setUsername(signupDTO.getUsername());
         userDO.setPassword(passwordEncoder.encode(signupDTO.getPassword()));
-        userRepository.save(userDO);
+        userService.saveUser(userDO);
         createUserResponseDTO.setSuccess(true);
         createUserResponseDTO.setMessage("User created successfully");
         return new ResponseEntity<>(createUserResponseDTO, HttpStatus.OK);

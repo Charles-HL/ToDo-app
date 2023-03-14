@@ -2,11 +2,19 @@
     <div class="empty-header"></div>
 
     <div class="task-list">
-        <mat-card *ngFor="let task of tasks" class="common-task-tile task-tile">
+        <mat-card *ngFor="let task of tasksUnDone" class="common-task-tile task-tile">
             <mat-card-content>
-                <app-round-checkbox class="task-checkbox"></app-round-checkbox>
+                <app-round-checkbox [checked]="task.done" [data_id]=" task.id" class="task-checkbox" (onChange)="taskStateUpdated($event)"></app-round-checkbox>
                 <div class="task-title">{{task.name}}</div>
             </mat-card-content>
         </mat-card>
+        <div *ngIf="tasksDone.length > 0" class="undone-task-container">
+            <mat-card *ngFor="let task of tasksDone" class="common-task-tile task-tile undone-task-tile">
+                <mat-card-content>
+                    <app-round-checkbox [checked]="task.done" [data_id]=" task.id" class="task-checkbox" (onChange)="taskStateUpdated($event)"></app-round-checkbox>
+                    <div class="task-title undone-task-title">{{task.name}}</div>
+                </mat-card-content>
+            </mat-card>
+        </div>
     </div>
 </div>
