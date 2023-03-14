@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import { CustomMaterialModule } from 'src/app/shared/custom-material/custom-material.module';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {MatCardModule} from '@angular/material/card';
     TasksRoutingModule,
     MatFormFieldModule,
     MatButtonModule,
+    CustomMaterialModule,
     TranslateModule.forChild({
       extend: true
     }),

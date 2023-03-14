@@ -22,8 +22,12 @@ $default-theme-light: mat.define-light-theme(
   .themed-font-color {
     color: black
   }
-  .primary-background-color {
+  .common-task-tile {
     background-color: #3f51b5;
+    color: white;
+  }
+  .common-task-tile:hover {
+    background-color: #5665b9;
   }
 }
 
@@ -47,7 +51,11 @@ $default-theme-light: mat.define-light-theme(
   );
   @include mat.all-component-colors($default-theme-dark);
 
-  .primary-background-color {
+  .common-task-tile {
     background-color: #455a64;
+    color: white;
+  }
+  .common-task-tile:hover {
+    background-color: #555f64;
   }
 }

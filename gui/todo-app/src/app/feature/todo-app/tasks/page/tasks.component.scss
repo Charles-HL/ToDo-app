@@ -5,13 +5,33 @@
     align-items: center;
     .task-list{
         display: flex;
-        justify-content: center;
-        margin: 20px;
+        justify-content: flex-start;
+        margin-top: 20px;
         width: 100%;
+        flex-direction: column;
+        height: 100%;
+        align-items: center;
+        overflow-y: auto;
 
         .task-tile {
-            width: 40%;
-            color: white;
-          }
+            max-width: 1000px;
+            width: 90%;
+            height: 51px;
+            margin-bottom: 8px;
+
+            mat-card-content {
+                height: 51px;
+                padding: 0 16px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+
+                .task-title{
+                    margin-left: 5px;
+                }
+            }
+        }
+          
     }
 }

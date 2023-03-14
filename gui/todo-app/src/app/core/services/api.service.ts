@@ -5,6 +5,7 @@ import { Login } from 'src/app/shared/models/dto/login';
 import { Signup } from 'src/app/shared/models/dto/signup';
 import { environment } from 'src/environments/environment';
 import { Logout } from 'src/app/shared/models/dto/logout';
+import { Task } from 'src/app/shared/models/dto/task';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,13 @@ export class ApiService {
         let headers = this.defaultHeaders;
         headers.append('Content-Type','application/json');
         return this.http.post(url, body, {headers});
+    }
+
+    public getTasks(): Observable<any> {
+        const url = `${this.baseUrl}/tasks`;
+        let headers = this.defaultHeaders;
+        headers.append('Content-Type','application/json');
+        return this.http.get(url, {headers});
     }
     
     public postAuthLogout(logoutDto: Logout): Observable<any> {

@@ -1,11 +1,14 @@
 package com.charleshl.server.todoapp.entity;
 
 import com.charleshl.server.mainframe.entity.UserDO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 
 
 @Entity
 @Table(name = "tasks", schema = "myschema")
+@Data
 public class TaskDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +22,7 @@ public class TaskDO {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private UserDO userDO;
 
     public TaskDO() {}
