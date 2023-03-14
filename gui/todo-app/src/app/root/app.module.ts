@@ -18,6 +18,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { CustomMaterialModule } from '../shared/custom-material/custom-material.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatButtonModule,
     BrowserAnimationsModule,
     PopUpModule,
+    CustomMaterialModule,
     HttpClientModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
