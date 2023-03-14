@@ -1,0 +1,22 @@
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
+    border-color: white!important;
+}
+.mdc-checkbox__background {
+    border-radius: 50%!important;
+    height: 22px!important;
+    width: 22px!important;
+    margin-bottom: 4px!important;
+    margin-right: 4px!important;
+}
+.mdc-checkbox {
+    height: 22px!important;
+    width: 22px!important;
+}
+.mdc-checkbox__ripple{
+    background: none!important;
+    display: none;
+}
+.mat-mdc-checkbox-ripple{
+    background: none!important;
+    display: none;
+}
