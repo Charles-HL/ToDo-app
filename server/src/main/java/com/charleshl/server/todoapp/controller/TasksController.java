@@ -3,7 +3,6 @@ package com.charleshl.server.todoapp.controller;
 import com.charleshl.server.mainframe.config.auth.UserPrincipal;
 import com.charleshl.server.mainframe.entity.UserDO;
 import com.charleshl.server.mainframe.service.UserService;
-import com.charleshl.server.mainframe.utils.Utils;
 import com.charleshl.server.todoapp.entity.TaskDO;
 import com.charleshl.server.todoapp.service.TaskService;
 import jakarta.annotation.PostConstruct;
@@ -20,7 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+/**
+ * Tasks controller class
+ *
+ * @author Charles HL
+ */
 @RestController
 public class TasksController {
 
@@ -35,6 +40,7 @@ public class TasksController {
     private void init() {
         List<TaskDO> taskList = new ArrayList<>();
         UserDO user = userService.getUserByUsername("admin_todo_app");
+        taskService.deleteAll(user);
         taskList.add(new TaskDO("Plan a trip to a foreign country", "Choose a destination, research accommodations, transportation options, and activities to do. Create an itinerary for your trip.", user));
         taskList.add(new TaskDO("Learn a new language", "Choose a language you are interested in learning, and find resources such as language-learning apps, books, and classes to help you learn. Set a goal for yourself to become proficient in the language.", user));
         taskList.add(new TaskDO("Organize a charity fundraiser", "Choose a cause you are passionate about, and plan a fundraising event to raise money for that cause. Coordinate with volunteers, secure a venue, and promote the event to the community.", user));
@@ -48,6 +54,11 @@ public class TasksController {
         taskService.saveAllTasks(taskList);
     }
 
+    /**
+     * Returns all tasks for the current user.
+     *
+     * @return List<TaskDO>
+     */
     @GetMapping("/tasks")
     public ResponseEntity<List<TaskDO>> getMyTasks() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -56,15 +67,52 @@ public class TasksController {
         return new ResponseEntity<>(taskService.getAllTasksByUser(user), HttpStatus.OK);
     }
 
+    /**
+     * Creates a new task.
+     *
+     * @param id The id of the task to be created.
+     * @param isDone The status of the task to be created.
+     * @return TaskDO
+     */
     @PostMapping("/task/{id}/done/{isDone}")
     public ResponseEntity<TaskDO> postIsTaskDone(@PathVariable("id") long id, @PathVariable("isDone") boolean isDone) {
         try {
             TaskDO taskDO = taskService.getTaskById(id);
+            checkUserPermission(taskDO);
             taskDO.setDone(isDone);
             taskService.saveTask(taskDO);
             return new ResponseEntity<>(taskDO, HttpStatus.OK);
         } catch (EntityNotFoundException e)  {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Returns a task by its id.
+     *
+     * @param id The id of the task to be returned.
+     * @return TaskDO
+     */
+    @GetMapping("/task/{id}")
+    public ResponseEntity<TaskDO> getTaskById(@PathVariable("id") long id) {
+        try {
+            TaskDO taskDO = taskService.getTaskById(id);
+            checkUserPermission(taskDO);
+            return new ResponseEntity<>(taskDO, HttpStatus.OK);
+        } catch (EntityNotFoundException | NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Checks if the user has permission to access the task.
+     * @param taskDO The task to be checked.
+     */
+    private void checkUserPermission(TaskDO taskDO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = ((UserPrincipal) authentication.getPrincipal()).getUsername();
+        if (!taskDO.getUserDO().getUsername().equals(username)) {
+            throw new SecurityException("User does not have permission to access this task");
         }
     }
 }

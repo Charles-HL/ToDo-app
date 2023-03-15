@@ -87,12 +87,13 @@ export class AuthService {
 
 
   internalServerError(err: HttpErrorResponse) {
-    this.logoutGui();
+    this.logoutGui();    
     this.popupService.callPopupDetails(
       'Internal sever error occured.',
-      err.error
+      JSON.stringify(err.error)
     );
   }
+
 
   unautorizedAccess(err: HttpErrorResponse) {
     this.logoutGui();

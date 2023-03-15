@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable, Subscription } from 'rxjs';
+import { CheckboxData } from 'src/app/shared/models/checkbox/checkbox-data';
+import { Task } from 'src/app/shared/models/dto/task';
 import { PopupModel } from 'src/app/shared/models/popup/popup-model';
 import { GenericPopupComponent } from 'src/app/shared/pop-up/components/generic-popup/generic-popup.component';
 
@@ -74,6 +76,32 @@ export class PopupService {
       } as PopupModel,
     });
     return this.modalPopupGeneric.afterClosed();
+  }
+
+  openTask(task: Task, returnToTaskList: () => void, taskStateUpdated: (checkboxData: CheckboxData) => Observable<Task>): void {
+    this.modalPopupGeneric = this.matDialog.open(GenericPopupComponent, {
+      width: MAT_DIALOG_WIDTH.LARGE,
+      panelClass: ['generic-popup', 'background-primary', 'task-popup'],
+      
+      data: {
+        title: task.name,
+        validateAction: {
+          isActive: false,
+          action_label: '',
+        },
+        cancelAction: { isActive: false, action_label: '' },
+        hasTextArea: false,
+        taskDetail: true,
+        task: task,
+        returnToTaskList: returnToTaskList,
+        taskStateUpdated: taskStateUpdated,
+      } as PopupModel,
+    });
+    this.modalPopupGeneric
+      .afterClosed()
+      .subscribe((res: any) => {
+        returnToTaskList();
+      });
   }
 
   private openDetails(message: string, detailMessage: string): void {

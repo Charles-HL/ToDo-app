@@ -1,5 +1,5 @@
 <section
-  *ngIf="!data.aboutPopin"
+  *ngIf="!data.taskDetail"
   id="GenericPopup"
   class="modal-control">
   <h3 *ngIf="data.title" mat-dialog-title>{{ data.title }}</h3>
@@ -23,8 +23,24 @@
     </div>
 
     <div class="details-container">
-      <button *ngIf="data.detailsLink" class="details-link" [mat-dialog-close]="'details'">'details'</button >
+      <button mat-button *ngIf="data.detailsLink" class="details-link" [mat-dialog-close]="'details'">details</button >
     </div>
 
   </div>
 </section>
+
+<div id="taskContainer" class="task-container background-primary" *ngIf="data.taskDetail && data.task && data.returnToTaskList && data.taskStateUpdated">
+  <div id="taskSubContainer" class="task-subcontainer">
+      <mat-card id="taskCard" class="task-card background-primary">
+          <mat-card-content>
+              <div class="task-title-container">
+                  <app-round-checkbox [checked]="data.task.done" [data_id]=" data.task.id" class="task-checkbox" (onChange)="updateTaskState($event)"></app-round-checkbox>
+                  <div class="task-title" [ngClass]="data.task.done ? 'task-done-title': ''">{{data.task.name}}</div>
+              </div>
+              <div class="task-description-container">
+                  <div class="task-description">{{data.task.description}}</div>
+              </div>
+          </mat-card-content>
+      </mat-card>
+  </div>
+</div>

@@ -36,7 +36,20 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
+    /**
+     * Get all tasks of a user
+     * @param userDO user
+     * @return list of tasks
+     */
     public List<TaskDO> getAllTasksByUser(UserDO userDO) {
         return taskRepository.getAllByUserDO(userDO);
+    }
+
+    /**
+     * Delete all tasks of a user
+     * @param user user
+     */
+    public void deleteAll(UserDO user) {
+        taskRepository.getAllByUserDO(user).forEach(taskRepository::delete);
     }
 }

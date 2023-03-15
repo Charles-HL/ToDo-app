@@ -25,6 +25,18 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
+    let doNotShowPopupErrorOn404 = false;
+    let doNotHandleError401 = false;
+    if (request.headers.has('do-not-show-popup-error-on-404')) {
+      doNotShowPopupErrorOn404 = true;
+      // remove the value as its not a valid header for the server
+      request = request.clone({headers: request.headers.delete('do-not-show-popup-error-on-404')});
+    }
+    if (request.headers.has('do-not-handle-error-401')) {
+      doNotHandleError401 = true;
+      // remove the value as its not a valid header for the server
+      request = request.clone({headers: request.headers.delete('do-not-handle-error-401')});
+    }
     const token = this.authService.getToken();
     const username = this.authService.getLoggedUsername();
     if (token && username) {
@@ -48,6 +60,10 @@ export class TokenInterceptor implements HttpInterceptor {
       ),
       catchError((err: HttpErrorResponse) => {
         this.loading.setLoading(false, request.url);
+        console.warn(request, err)
+        if (doNotShowPopupErrorOn404 && err.status === 404 || doNotHandleError401 && err.status === 401) {
+          return throwError(() => err);
+        }
         if (err.status === 500) {
           this.authService.internalServerError(err);
         } else if (err.status === 401) {
@@ -82,7 +98,7 @@ export class TokenInterceptor implements HttpInterceptor {
             );
           }
         }
-        return throwError(err);
+        return throwError(() => err);
       })
     );
   }

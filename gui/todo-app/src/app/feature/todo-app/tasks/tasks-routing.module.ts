@@ -6,14 +6,11 @@ import { AuthGuard } from 'src/app/core/guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    component: TasksComponent, canActivate: [AuthGuard],
-    children: [
-      {
-        path: ':id',
-        loadChildren: () => import('../task/task.modules').then(m => m.TaskModule),
-        canActivate: [AuthGuard]
-      }
-    ]
+    component: TasksComponent, canActivate: [AuthGuard]
+  },
+  {
+    path: ':id',
+    component: TasksComponent, canActivate: [AuthGuard]
   }
 ];
 

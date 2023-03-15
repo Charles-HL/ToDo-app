@@ -29,6 +29,19 @@ $default-theme-light: mat.define-light-theme(
   .common-task-tile:hover {
     background-color: #5665b9;
   }
+  
+  .background-primary {
+    background-color: #3f51b5;
+    .mat-mdc-dialog-container {
+      background-color: #3f51b5;
+      .mdc-dialog__container{
+        background-color: #3f51b5;
+        .mat-mdc-dialog-surface{
+          background-color: #3f51b5;
+        }
+      }
+    }
+  }
 }
 
 /*
@@ -57,5 +70,18 @@ $default-theme-light: mat.define-light-theme(
   }
   .common-task-tile:hover {
     background-color: #555f64;
+  }
+
+  .background-primary {
+    background-color: #455a64;
+    .mat-mdc-dialog-container {
+      background-color: #455a64;
+      .mdc-dialog__container{
+        background-color: #455a64;
+        .mat-mdc-dialog-surface{
+          background-color: #455a64;
+        }
+      }
+    }
   }
 }

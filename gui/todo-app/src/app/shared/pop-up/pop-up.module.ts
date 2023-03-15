@@ -7,6 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonToggleModule } from "@angular/material/button-toggle"
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GenericPopupComponent } from './components/generic-popup/generic-popup.component';
+import { MatCardModule } from '@angular/material/card';
+import { CustomMaterialModule } from '../custom-material/custom-material.module';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -23,6 +26,9 @@ import { GenericPopupComponent } from './components/generic-popup/generic-popup.
     MatFormFieldModule,
     MatInputModule,
     MatButtonToggleModule,
+    MatCardModule,
+    CustomMaterialModule,
+    MatIconModule
   ],
   entryComponents: [
     MatDialogModule,
