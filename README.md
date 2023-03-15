@@ -2,7 +2,8 @@
 This is a ToDo application project that allows users to manage their tasks.
 
 ### Functionnality
-- Login & user management
+- Login 
+- User & security management with token and session
 - Dark mode
 - Language selection
 - List of my tasks
