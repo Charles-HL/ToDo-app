@@ -31,7 +31,7 @@ class SecurityConfigTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        securityConfig = new SecurityConfig(userDetailsService, jwtTokenProvider, sessionService);
+        securityConfig = new SecurityConfig(jwtTokenProvider, sessionService);
     }
 
     @Test

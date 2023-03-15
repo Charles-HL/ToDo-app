@@ -1,10 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { TasksComponent } from './tasks.component';
 import { ApiService } from 'src/app/core/services/api.service';
 import { CheckboxData } from 'src/app/shared/models/checkbox/checkbox-data';
 import { Task } from 'src/app/shared/models/dto/task';
+import { MatCardModule } from '@angular/material/card';
+import { CustomMaterialModule } from 'src/app/shared/custom-material/custom-material.module';
 
 describe('TasksComponent', () => {
   let component: TasksComponent;
@@ -20,6 +23,7 @@ describe('TasksComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ TasksComponent ],
+      imports: [ HttpClientTestingModule,MatCardModule, CustomMaterialModule ], 
       providers: [ ApiService ]
     })
     .compileComponents();
@@ -45,7 +49,13 @@ describe('TasksComponent', () => {
   });
 
   it('should update task state correctly', () => {
-    spyOn(apiService, 'postIsTaskDone').and.returnValue(of(mockTasks[0]));
+    let updatedTask = {
+      id: mockTasks[0].id,
+      name: mockTasks[0].name,
+      done: true
+    }
+    spyOn(apiService, 'getTasks').and.returnValue(of(mockTasks));
+    spyOn(apiService, 'postIsTaskDone').and.returnValue(of(updatedTask));
 
     fixture.detectChanges();
 
@@ -53,6 +63,6 @@ describe('TasksComponent', () => {
     component.taskStateUpdated(checkboxData);
 
     expect(component.tasksUnDone).toEqual([mockTasks[2]]);
-    expect(component.tasksDone).toEqual([mockTasks[0], mockTasks[1]]);
+    expect(component.tasksDone).toEqual([updatedTask, mockTasks[1]]);
   });
 });

@@ -7,8 +7,8 @@ import com.charleshl.server.mainframe.dto.LoginDTO;
 import com.charleshl.server.mainframe.dto.LoginResponseDTO;
 import com.charleshl.server.mainframe.dto.SignupDTO;
 import com.charleshl.server.mainframe.entity.UserDO;
-import com.charleshl.server.mainframe.repository.UserRepository;
 import com.charleshl.server.mainframe.service.SessionService;
+import com.charleshl.server.mainframe.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -31,7 +31,7 @@ public class AuthControllerTest {
     private AuthenticationManager authenticationManager;
 
     @Mock
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -81,7 +81,7 @@ public class AuthControllerTest {
         signupDTO.setUsername("testuser");
         signupDTO.setPassword("password");
 
-        when(userRepository.findByUsername("testuser")).thenReturn(null);
+        when(userService.getUserByUsername("testuser")).thenReturn(null);
         when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
 
         // Act
@@ -90,7 +90,7 @@ public class AuthControllerTest {
         // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertTrue(responseEntity.getBody().isSuccess());
-        verify(userRepository).save(argThat(user -> user.getUsername().equals("testuser") &&
+        verify(userService).saveUser(argThat(user -> user.getUsername().equals("testuser") &&
                 user.getPassword().equals("encodedPassword")));
     }
 
