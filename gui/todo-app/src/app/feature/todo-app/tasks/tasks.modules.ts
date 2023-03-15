@@ -10,6 +10,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { CustomMaterialModule } from 'src/app/shared/custom-material/custom-material.module';
+import { MatIconModule } from '@angular/material/icon';
+import { PopUpModule } from 'src/app/shared/pop-up/pop-up.module';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { CustomMaterialModule } from 'src/app/shared/custom-material/custom-mate
     }),
     MatInputModule,
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule,
+    PopUpModule
   ]
 })
 export class TasksModule { }

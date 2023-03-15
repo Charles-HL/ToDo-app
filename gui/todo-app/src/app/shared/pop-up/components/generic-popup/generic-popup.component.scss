@@ -23,63 +23,68 @@
   }
 }
 
-.about-wrapper {
-  .logo-container {
-    display: flex;
-    justify-content: space-around;
-    .img-about-logo {
-      width: 207px;
-      height: 100px;
-    }
-    .img-spaceops-logo {
-      width: 180px;
-      height: 100px;
-    }
-  }
-  .body-about-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    //background-image: url("../../../../../assets/images/aboutBackground.jpg");
-    background-size: 600px;
-    background-repeat: no-repeat;
-    .mat-mdc-dialog-title {
-      text-align: center;
-      color: white !important;
-      margin-top: 10px !important;
-      margin-bottom: 2em !important;
-      font-weight: 500 !important;
-      font-size: 18px !important;
-      line-height: 1.1 !important;
-    }
-    .infos-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 50%;
-      margin: auto;
-      color: white;
-      border: 1px solid;
-      padding: 1em;
-      div {
-        width: 90%;
-        height: 28px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        &:not(:last-child) {
-          border-bottom: 1px solid;
-        }
-      }
-    }
-  }
-}
 
 .btn-actions-container {
   display: flex;
   width: 100%;
   justify-content: space-around;
-  &.about-btn {
-    margin: 2em 0 2em 0;
+}
+
+.task-container{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .task-subcontainer{
+      display: flex;
+      justify-content: center;
+      height: 100%;
+
+      .task-card{
+          justify-content: flex-start;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          color: white; 
+          min-height: 30vh;
+
+          .return-button-container{
+              position: absolute;
+              left: -42px;
+              top: 0px;
+              border-radius: 10%;
+              .return-button {
+                  transform: scale(1);
+              }
+          }
+
+          .task-title-container {
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+
+              .task-title{
+                  margin-left: 15px;
+              }
+
+              .task-done-title{
+                  text-decoration: line-through;
+              }
+          }
+
+          .task-description-container {
+
+              .task-description {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+                  justify-content: flex-start;
+                  margin-top: 40px;
+                  height: 100%;
+                  overflow-y: auto;
+              }
+          }
+      }
   }
+
 }

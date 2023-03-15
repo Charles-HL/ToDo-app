@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Task } from 'src/app/shared/models/dto/task';
 import { PopupModel } from 'src/app/shared/models/popup/popup-model';
 
 @Component({
@@ -19,4 +20,11 @@ export class GenericPopupComponent implements OnInit {
     console.log(this.data)
   }
 
+  updateTaskState($event: any) {
+    if (this.data && this.data.taskStateUpdated) {
+      this.data.taskStateUpdated($event).subscribe((task: Task) => {
+        this.data.task = task;
+      })
+    }
+  }
 }
