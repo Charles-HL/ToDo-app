@@ -9,13 +9,13 @@
     <mat-card-content *ngIf="!isCreatingUser">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
         <mat-form-field>
-          <input matInput formControlName="username" placeholder="{{ 'Username' | translate }}" type="text" required>
+          <input matInput formControlName="username" placeholder="{{ 'Username' | translate }}" type="text" required autocomplete="username">
           <mat-error *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
             <span *ngIf="loginForm.controls['username']?.errors?.['required']">{{ 'Username is required.' | translate }}</span>
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput formControlName="password" placeholder="{{ 'Password' | translate }}" type="password" required>
+          <input matInput formControlName="password" placeholder="{{ 'Password' | translate }}" type="password" required autocomplete="current-password">
           <mat-error *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
             <span *ngIf="loginForm.controls['password'].errors?.['required']">{{ 'Password is required.' | translate }}</span>
           </mat-error>

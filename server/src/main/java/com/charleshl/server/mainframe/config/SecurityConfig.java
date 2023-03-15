@@ -35,11 +35,6 @@ import java.util.List;
 public class SecurityConfig {
 
     /**
-     * User details service
-     */
-    private MyUserDetailsService userDetailsService;
-
-    /**
      * Session service
      */
     private SessionService sessionService;
@@ -52,13 +47,11 @@ public class SecurityConfig {
     /**
      * Constructor
      *
-     * @param userDetailsService User details service
      * @param jwtTokenProvider JWT token provider
      * @param sessionService Session service
      */
-    public SecurityConfig(MyUserDetailsService userDetailsService, JwtTokenProvider jwtTokenProvider,
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider,
                           SessionService sessionService) {
-        this.userDetailsService = userDetailsService;
         this.sessionService = sessionService;
         this.jwtTokenProvider = jwtTokenProvider;
     }

@@ -26,6 +26,13 @@ export class ApiService {
         return this.http.post(url, body, {headers});
     }
 
+    public postIsTaskDone(id: number, isDone: boolean): Observable<any> {
+        const url = `${this.baseUrl}/task/${id}/done/${isDone}`;
+        let headers = this.defaultHeaders;
+        headers.append('Content-Type','application/json');
+        return this.http.post(url, { headers });
+    }
+
     public getTasks(): Observable<any> {
         const url = `${this.baseUrl}/tasks`;
         let headers = this.defaultHeaders;

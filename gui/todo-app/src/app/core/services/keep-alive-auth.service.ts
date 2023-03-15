@@ -8,7 +8,7 @@ import { ApiService } from './api.service';
 export class KeepAliveAuthService implements OnDestroy {
   private logSub: Subscription | undefined;
   private isKeepAliveStarted: boolean = false;
-  private keepAliveAuthApiPeriodInMinute: number = 20;
+  private keepAliveAuthApiPeriodInMinute: number = 15;
   private keepAliveInterval: number | undefined;
 
   constructor(private apiService: ApiService) {}

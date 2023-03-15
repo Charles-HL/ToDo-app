@@ -13,6 +13,23 @@
         align-items: center;
         overflow-y: auto;
 
+        
+
+        .undone-task-container{
+            margin-top: 20px;
+            width: inherit;
+            display: inherit;
+            justify-content: inherit;
+            flex-direction: inherit;
+            align-items: inherit;
+
+            .undone-task-title{
+                color: rgba(255, 255, 255, 0.651);
+                text-decoration: line-through;
+            }
+        }
+
+
         .task-tile {
             max-width: 1000px;
             width: 90%;
@@ -31,6 +48,7 @@
                     margin-left: 5px;
                 }
             }
+            
         }
           
     }

@@ -12,13 +12,16 @@ import lombok.Data;
 public class TaskDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "done")
+    private boolean done;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

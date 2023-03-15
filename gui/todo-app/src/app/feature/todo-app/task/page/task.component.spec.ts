@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TaskComponent } from './task.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatCardModule } from '@angular/material/card';
 
 describe('TaskComponent', () => {
   let component: TaskComponent;
@@ -8,7 +10,8 @@ describe('TaskComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TaskComponent ]
+      declarations: [ TaskComponent ],
+      imports: [ HttpClientTestingModule, MatCardModule ]
     })
     .compileComponents();
 
