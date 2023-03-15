@@ -10,6 +10,17 @@ This is a ToDo application project that allows users to manage their tasks.
 - See the detail of my task
 - Creation of a new task
 
+### Future Functionnality
+- Modify and remove a task
+- Show creation date of a task
+- Save user preferences like language and theme in db
+- Add password modification
+- Add due date, reminder and notification
+- Add task manual sorting
+- Add websockets to allow sync between devices
+- Manage tasks in a store for the angular front end
+- Add possibilty to put tasks in categories (and add color)
+
 ### Installation
 TODO
 
