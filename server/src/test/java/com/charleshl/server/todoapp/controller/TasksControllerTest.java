@@ -16,9 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,38 +35,41 @@ class TasksControllerTest {
     @InjectMocks
     private TasksController tasksController;
 
+    UserDO userDO;
+
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        userDO = new UserDO("test_user", "");
+        Authentication authentication = new UsernamePasswordAuthenticationToken(new UserPrincipal(userDO), null);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     @Test
     void testGetMyTasks() {
         // Mocking
-        Authentication authentication = new UsernamePasswordAuthenticationToken(new UserPrincipal(new UserDO("admin_todo_app", "")), null);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDO user = new UserDO();
-        user.setUsername("admin_todo_app");
-        when(userService.getUserByUsername(user.getUsername())).thenReturn(user);
+        when(userService.getUserByUsername(userDO.getUsername())).thenReturn(userDO);
         List<TaskDO> tasks = new ArrayList<>();
-        tasks.add(new TaskDO("Test Task", "Test Description", user));
-        when(taskService.getAllTasksByUser(user)).thenReturn(tasks);
+        tasks.add(new TaskDO("Test Task", "Test Description", userDO));
+        when(taskService.getAllTasksByUser(userDO)).thenReturn(tasks);
 
         // Test
         ResponseEntity<List<TaskDO>> responseEntity = tasksController.getMyTasks();
 
         // Assertions
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        System.out.println(responseEntity.getBody());
         assertEquals(tasks, responseEntity.getBody());
-        verify(userService, times(1)).getUserByUsername(user.getUsername());
-        verify(taskService, times(1)).getAllTasksByUser(user);
+        verify(userService, times(1)).getUserByUsername(userDO.getUsername());
+        verify(taskService, times(1)).getAllTasksByUser(userDO);
     }
 
     @Test
     void testPostIsTaskDone() {
         // Mocking
-        TaskDO task = new TaskDO("Test Task", "Test Description", new UserDO());
+
+        TaskDO task = new TaskDO("Test Task", "Test Description", userDO);
         when(taskService.getTaskById(1L)).thenReturn(task);
 
         // Test
@@ -89,12 +90,6 @@ class TasksControllerTest {
         UserDO testUser = new UserDO("test_user", "");
         TaskDO taskDO = new TaskDO("Test task", "Test task description", testUser);
         when(taskService.getTaskById(taskId)).thenReturn(taskDO);
-        SecurityContext securityContext = mock(SecurityContext.class);
-        Authentication authentication = mock(Authentication.class);
-        UserPrincipal userDetails = new UserPrincipal(testUser);
-        when(authentication.getPrincipal()).thenReturn(userDetails);
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
 
         // Act
         ResponseEntity<TaskDO> response = tasksController.getTaskById(taskId);
@@ -109,14 +104,6 @@ class TasksControllerTest {
         // Arrange
         long taskId = 2L;
         when(taskService.getTaskById(taskId)).thenThrow(EntityNotFoundException.class);
-
-        SecurityContext securityContext = mock(SecurityContext.class);
-        Authentication authentication = mock(Authentication.class);
-        UserDetails userDetails = mock(UserDetails.class);
-        when(userDetails.getUsername()).thenReturn("test_user");
-        when(authentication.getPrincipal()).thenReturn(userDetails);
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
 
         // Act
         ResponseEntity<TaskDO> response = tasksController.getTaskById(taskId);
