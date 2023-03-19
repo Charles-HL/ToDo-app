@@ -1,6 +1,10 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 import { DOCUMENT } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Inject,
@@ -11,7 +15,6 @@ import { OnInit } from '@angular/core';
 import { AuthService } from '../core/services/auth.service';
 import { Subscription, delay } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { CookieService } from 'ngx-cookie-service';
 import { LoadingService } from '../core/services/loading.service';
 
 @Component({
@@ -45,15 +48,14 @@ export class AppComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private authService: AuthService,
     private translate: TranslateService,
-    private cookieService: CookieService,
     private _loading: LoadingService
   ) {
-    let isDarkThemeFromCookie =  this.cookieService.get('todo-app-is-dark');
+    let isDarkThemeFromCookie =  localStorage.getItem('todo-app-is-dark');
 
     if (isDarkThemeFromCookie) {
       this.isDarkTheme = JSON.parse(isDarkThemeFromCookie);
     }
-    this.cookieService.set('todo-app-is-dark', JSON.stringify(this.isDarkTheme));
+    localStorage.setItem('todo-app-is-dark', JSON.stringify(this.isDarkTheme))
 
 
     this.subs.push(
@@ -63,12 +65,12 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     this.translate.addLangs(this.languages.map((lang) => lang.code));
 
-    let langFromCookie =  this.cookieService.get('todo-app-current-lang');
+    let langFromCookie =  localStorage.getItem('todo-app-current-lang');
 
     if (langFromCookie) {
       this.selectedLanguage = langFromCookie;
     }
-    this.cookieService.set('todo-app-current-lang', this.selectedLanguage);
+    localStorage.setItem('todo-app-current-lang', this.selectedLanguage);
     this.translate.setDefaultLang(this.selectedLanguage);
   }
 
@@ -85,7 +87,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.renderer.removeClass(this.document.body, this.isDarkTheme ? this.lightTheme : this.darkTheme);
     this.renderer.addClass(this.document.body, this.isDarkTheme ? this.darkTheme : this.lightTheme);
     this.cdr.detectChanges();
-    this.cookieService.set('todo-app-is-dark', JSON.stringify(this.isDarkTheme));
+    localStorage.setItem('todo-app-is-dark', JSON.stringify(this.isDarkTheme));
   }
 
   toggleTheme() {
@@ -96,7 +98,7 @@ export class AppComponent implements OnInit, OnDestroy {
   changeLanguage(language: any) {
     this.selectedLanguage = language.code;
     this.translate.use(this.selectedLanguage);
-    this.cookieService.set('todo-app-current-lang', this.selectedLanguage);
+    localStorage.setItem('todo-app-current-lang', this.selectedLanguage);
 
   }
   

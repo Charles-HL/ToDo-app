@@ -1,3 +1,8 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 package com.charleshl.server.mainframe.controller;
 
 import org.apache.catalina.connector.ClientAbortException;

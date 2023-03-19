@@ -9,6 +9,12 @@
     "User creation": "Création d'un utilisateur",
     "Passwords do not match.": "Les mots de passe ne correspondent pas.",
     "Create user": "Créer un utilisateur",
-    "Username or password is incorrect": "Le nom d'utilisateur ou le mot de passe est incorrect"
+    "Username or password is incorrect": "Le nom d'utilisateur ou le mot de passe est incorrect",
+    "Add task": "Ajouter une tâche",
+    "Title of the task": "Titre de la tâche",
+    "Description of the task": "Description de la tâche",
+    "Cancel": "Annuler",
+    "Validate": "Valider",
+    "Task title is required": "Le titre de la tâche est requis"
 }
   

@@ -1,3 +1,8 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 package com.charleshl.server.todoapp.entity;
 
 import com.charleshl.server.mainframe.entity.UserDO;
@@ -6,6 +11,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 
+/**
+ * Task DO
+ *
+ * @author Charles HL
+ */
 @Entity
 @Table(name = "tasks", schema = "myschema")
 @Data

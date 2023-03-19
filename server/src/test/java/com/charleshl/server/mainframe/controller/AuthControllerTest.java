@@ -9,6 +9,7 @@ import com.charleshl.server.mainframe.dto.SignupDTO;
 import com.charleshl.server.mainframe.entity.UserDO;
 import com.charleshl.server.mainframe.service.SessionService;
 import com.charleshl.server.mainframe.service.UserService;
+import com.charleshl.server.todoapp.entity.TaskDO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

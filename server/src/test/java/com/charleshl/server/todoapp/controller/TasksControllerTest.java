@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class TasksControllerTest {
@@ -70,23 +71,25 @@ class TasksControllerTest {
         // Mocking
 
         TaskDO task = new TaskDO("Test Task", "Test Description", userDO);
-        when(taskService.getTaskById(1L)).thenReturn(task);
+        task.setId(8L);
+        when(taskService.getTaskById(8L)).thenReturn(task);
+        when(taskService.saveTask(task)).thenReturn(task);
 
         // Test
-        ResponseEntity<TaskDO> responseEntity = tasksController.postIsTaskDone(1L, true);
+        ResponseEntity<TaskDO> responseEntity = tasksController.postIsTaskDone(8L, true);
 
         // Assertions
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(task, responseEntity.getBody());
-        assertEquals(true, task.isDone());
-        verify(taskService, times(1)).getTaskById(1L);
+        assertTrue(task.isDone());
+        verify(taskService, times(1)).getTaskById(8L);
         verify(taskService, times(1)).saveTask(task);
     }
 
     @Test
     public void testGetTaskById() {
         // Arrange
-        long taskId = 1L;
+        long taskId = 3L;
         UserDO testUser = new UserDO("test_user", "");
         TaskDO taskDO = new TaskDO("Test task", "Test task description", testUser);
         when(taskService.getTaskById(taskId)).thenReturn(taskDO);
@@ -110,6 +113,23 @@ class TasksControllerTest {
 
         // Assert
         Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    void putTask() {
+        TaskDO taskDO = new TaskDO();
+        taskDO.setId(5L);
+        taskDO.setName("Test task");
+        taskDO.setDescription("This is a test task");
+        taskDO.setDone(false);
+
+        when(taskService.saveTask(any(TaskDO.class))).thenReturn(taskDO);
+
+        ResponseEntity<TaskDO> responseEntity = tasksController.putTask(taskDO);
+
+        verify(taskService, times(1)).saveTask(any(TaskDO.class));
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(taskDO, responseEntity.getBody());
     }
 
 }

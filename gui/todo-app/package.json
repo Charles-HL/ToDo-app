@@ -24,6 +24,7 @@
     "@ngx-translate/http-loader": "^7.0.0",
     "country-list": "^2.3.0",
     "flag-icon-css": "^4.1.7",
+    "ngx-cookie": "^6.0.1",
     "ngx-cookie-service": "^15.0.0",
     "ngx-mat-drm-countries-flags": "^3.0.1",
     "rxjs": "~7.8.0",

@@ -1,3 +1,8 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 package com.charleshl.server.mainframe.config.jwt;
 
 import com.charleshl.server.mainframe.config.auth.UserPrincipal;
@@ -23,12 +28,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     /**
      * The SessionService is used to update the session
      */
-    private SessionService sessionService;
+    private final SessionService sessionService;
 
     /**
      * The JwtTokenProvider is used to validate the token
      */
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
     /**
      * The constructor of JwtTokenFilter
