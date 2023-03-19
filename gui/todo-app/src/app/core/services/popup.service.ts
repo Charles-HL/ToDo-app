@@ -1,3 +1,8 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable, Subscription } from 'rxjs';
@@ -12,6 +17,9 @@ export enum MAT_DIALOG_WIDTH {
   LARGE = '850px'
 }
 
+/**
+ * Service to manage the popups
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -24,10 +32,15 @@ export class PopupService {
   ) {
   }
 
+  /**
+   * Call a simple popup
+   * @param message the message to display
+   * @param description the description to display
+   */
   callPopupSimple(message: string, description: string | undefined = undefined): void {
     this.modalPopupGeneric = this.matDialog.open(GenericPopupComponent, {
       width: MAT_DIALOG_WIDTH.SMALL,
-      panelClass: ['-generic-popup', 'popup-simple'],
+      panelClass: ['generic-popup', 'popup-simple'],
       data: {
         title: message,
         description: description,
@@ -38,10 +51,17 @@ export class PopupService {
     });
   }
 
+  /**
+   * Call a popup with detail option
+   * @param message message
+   * @param detailMessage detail message
+   * @param description description
+   * @param htmlContent html content
+   */
   callPopupDetails(message: string, detailMessage: string, description: string | undefined = undefined, htmlContent: string | undefined = undefined): void {
     this.modalPopupGeneric = this.matDialog.open(GenericPopupComponent, {
       width: MAT_DIALOG_WIDTH.SMALL,
-      panelClass: ['-generic-popup', 'popup-detail-close'],
+      panelClass: ['generic-popup', 'popup-detail-close'],
       data: {
         title: message,
         description: description,
@@ -64,10 +84,15 @@ export class PopupService {
       });
   }
 
+  /**
+   * Call a yes no popup
+   * @param message message
+   * @returns observable boolean
+   */
   callYesNoPopupDetails(message: string): Observable<boolean> {
     this.modalPopupGeneric = this.matDialog.open(GenericPopupComponent, {
       width: MAT_DIALOG_WIDTH.SMALL,
-      panelClass: ['-generic-popup', 'popup-simple'],
+      panelClass: ['generic-popup', 'popup-simple'],
       data: {
         title: message,
         validateAction: { isActive: true, action_label: 'Yes' },
@@ -78,6 +103,12 @@ export class PopupService {
     return this.modalPopupGeneric.afterClosed();
   }
 
+  /**
+   * Open a popup to display a task
+   * @param task the task
+   * @param returnToTaskList the method to call to return to the task list page 
+   * @param taskStateUpdated the method to call to update the task state
+   */
   openTask(task: Task, returnToTaskList: () => void, taskStateUpdated: (checkboxData: CheckboxData) => Observable<Task>): void {
     this.modalPopupGeneric = this.matDialog.open(GenericPopupComponent, {
       width: MAT_DIALOG_WIDTH.LARGE,
@@ -104,10 +135,39 @@ export class PopupService {
       });
   }
 
+  /**
+   * Open a popup to add a task
+   * @param addTask the method to call to add the task
+   */
+  openAddTask(addTask: (task: Task) => void): void {
+    this.modalPopupGeneric = this.matDialog.open(GenericPopupComponent, {
+      width: MAT_DIALOG_WIDTH.MEDIUM,
+      panelClass: ['generic-popup', 'background-primary', 'add-task-popup'],
+      
+      data: {
+        validateAction: {
+          isActive: true,
+          action_label: 'Validate',
+        },
+        cancelAction: { isActive: true, action_label: 'Cancel' },
+        hasTextArea: false,
+        taskDetail: false,
+        addTask: true,
+      } as PopupModel,
+    });
+    this.modalPopupGeneric
+      .afterClosed()
+      .subscribe((res: Task | undefined) => {
+        if (res !== undefined) {
+          addTask(res);
+        }
+      });
+  }
+
   private openDetails(message: string, detailMessage: string): void {
     this.modalPopupGeneric = this.matDialog.open(GenericPopupComponent, {
       width: MAT_DIALOG_WIDTH.MEDIUM,
-      panelClass: ['-generic-popup', 'popup-detail-open'],
+      panelClass: ['generic-popup', 'popup-detail-open'],
       data: {
         title: message,
         validateAction: { isActive: true, action_label: 'Ok' },

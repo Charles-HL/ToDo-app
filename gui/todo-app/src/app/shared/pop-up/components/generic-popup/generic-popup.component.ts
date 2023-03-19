@@ -1,4 +1,10 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Task } from 'src/app/shared/models/dto/task';
 import { PopupModel } from 'src/app/shared/models/popup/popup-model';
@@ -10,6 +16,10 @@ import { PopupModel } from 'src/app/shared/models/popup/popup-model';
   encapsulation: ViewEncapsulation.None
 })
 export class GenericPopupComponent implements OnInit {
+  taskForm: FormGroup = new FormGroup({
+    title: new FormControl('', Validators.required),
+    description: new FormControl(''),
+  });
 
   constructor(
   @Inject(MAT_DIALOG_DATA)
@@ -27,4 +37,5 @@ export class GenericPopupComponent implements OnInit {
       })
     }
   }
+
 }

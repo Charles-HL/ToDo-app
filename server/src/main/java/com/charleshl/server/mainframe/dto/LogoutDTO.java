@@ -1,14 +1,23 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 package com.charleshl.server.mainframe.dto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
+/**
+ * Logout DTO
+ *
+ * @author Charles HL
+ */
 @Data
 public class LogoutDTO {
 
-    @Getter
-    @Setter
+    /**
+     * The username
+     */
     String username;
 
 }

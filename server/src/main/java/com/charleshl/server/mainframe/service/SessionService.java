@@ -14,7 +14,7 @@ public class SessionService {
     @Value("${login.session.timeoutInS}")
     private long expirationTimeInSecond;
 
-    private Map<String, SessionInfo> sessionMap = new HashMap<>();
+    private final Map<String, SessionInfo> sessionMap = new HashMap<>();
 
     public void addSession(String username, String token) {
         SessionInfo sessionInfo = new SessionInfo(username, LocalDateTime.now(), token);

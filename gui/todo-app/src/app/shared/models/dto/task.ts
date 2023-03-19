@@ -1,3 +1,6 @@
+/**
+ * Task DTO
+ */
 export interface Task {
   id: number;
   description?: string;

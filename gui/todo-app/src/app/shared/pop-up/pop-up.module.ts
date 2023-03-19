@@ -10,6 +10,7 @@ import { GenericPopupComponent } from './components/generic-popup/generic-popup.
 import { MatCardModule } from '@angular/material/card';
 import { CustomMaterialModule } from '../custom-material/custom-material.module';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -28,7 +29,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonToggleModule,
     MatCardModule,
     CustomMaterialModule,
-    MatIconModule
+    MatIconModule,
+    TranslateModule.forChild({
+      extend: true
+    }),
   ],
   entryComponents: [
     MatDialogModule,

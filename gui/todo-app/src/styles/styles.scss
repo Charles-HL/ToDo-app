@@ -27,4 +27,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       }
     }
   }
+  .mat-mdc-card-content{
+    width: 90%;
+    max-width: 1000px;
+  }
+}
+
+.add-task-popup{
+  border-radius: 2% !important;
+  .mat-mdc-dialog-container {
+    border-radius: 2% !important;
+    .mdc-dialog__container{
+      border-radius: 2% !important;
+      .mat-mdc-dialog-surface{
+        border-radius: 2% !important;
+      }
+    }
+  }
 }

@@ -1,3 +1,8 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -5,7 +10,11 @@ import { Login } from 'src/app/shared/models/dto/login';
 import { Signup } from 'src/app/shared/models/dto/signup';
 import { environment } from 'src/environments/environment';
 import { Logout } from 'src/app/shared/models/dto/logout';
+import { Task } from 'src/app/shared/models/dto/task';
 
+/**
+ * API service
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -44,10 +53,28 @@ export class ApiService {
             // this header is only used by the interceptor, it will be removed before sending the request to the server
             headers = headers.append('do-not-handle-error-401', 'true');
         }
-        console.warn(doNotShowPopupErrorOn404, headers)
         return this.http.get(url, {headers: headers});
     }
 
+
+    /**
+     * Create a new task
+     * @param task the task to create
+     * @returns Observable of the created task
+     */
+    public putTask(task: Task): Observable<any> {
+        const url = `${this.baseUrl}/task`;
+        let headers = this.defaultHeaders;
+        const body = this.dtoToFormData(task);
+        return this.http.put(url, body, {headers});
+    }
+
+    /**
+     * Update the status done of a task
+     * @param id task id
+     * @param isDone true if the task is done, false otherwise
+     * @returns Observable of the updated task
+     */
     public postIsTaskDone(id: number, isDone: boolean): Observable<any> {
         const url = `${this.baseUrl}/task/${id}/done/${isDone}`;
         let headers = this.defaultHeaders;
@@ -55,6 +82,10 @@ export class ApiService {
         return this.http.post(url, { headers });
     }
 
+    /**
+     * Get tasks
+     * @returns Observable of the list of tasks
+     */
     public getTasks(): Observable<any> {
         const url = `${this.baseUrl}/tasks`;
         let headers = this.defaultHeaders;
@@ -62,6 +93,11 @@ export class ApiService {
         return this.http.get(url, {headers});
     }
     
+    /**
+     * Post a logout request to the server
+     * @param logoutDto the logout dto
+     * @returns Observable of the response
+     */
     public postAuthLogout(logoutDto: Logout): Observable<any> {
         const url = `${this.baseUrl}/signout`;
         let headers = this.defaultHeaders;
@@ -69,6 +105,11 @@ export class ApiService {
         return this.http.post(url, this.dtoToFormData(logoutDto) , { headers });
     }
 
+    /**
+     * Post a signup request to the server
+     * @param signupDto the signup dto
+     * @returns Observable of the response
+     */
     public postSignup(signupDto: Signup): Observable<any> {
         const url = `${this.baseUrl}/signup`;
         const body = this.dtoToFormData(signupDto);
@@ -77,6 +118,10 @@ export class ApiService {
         return this.http.post(url, body, { headers });
     }
 
+    /**
+     * Post a keep-alive request to the server
+     * @returns Observable of the response
+     */
     public postKeepAlive(): Observable<any> {
         const url = `${this.baseUrl}/keep-alive`;
         let headers = this.defaultHeaders;
@@ -84,7 +129,12 @@ export class ApiService {
         return this.http.post(url, { headers });
     }
 
-    private dtoToFormData(dto: any) {
+    /**
+     * Convert a dto to a FormData object
+     * @param dto the dto to convert
+     * @returns the FormData object
+     */
+    private dtoToFormData(dto: Object): FormData {
         let data = new FormData();
         for (let key in dto) {
             data.append(key, (dto as any)[key]);

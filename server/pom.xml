@@ -10,12 +10,9 @@
 	</parent>
 	<groupId>com.charleshl</groupId>
 	<artifactId>todoapp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>todoapp</name>
 	<description>TODO app</description>
-	<properties>
-		<java.version>19</java.version>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.security</groupId>

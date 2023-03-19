@@ -1,3 +1,8 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 package com.charleshl.server.mainframe.config.auth;
 
 import java.util.Collection;
@@ -18,7 +23,7 @@ public class UserPrincipal implements UserDetails {
     /*
      * The UserDO
      */
-    private UserDO userDO;
+    private final UserDO userDO;
 
     /**
      * Constructor
