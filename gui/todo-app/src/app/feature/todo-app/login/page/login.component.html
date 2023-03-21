@@ -35,19 +35,19 @@
     <mat-card-content *ngIf="isCreatingUser">
       <form [formGroup]="createUserForm" (ngSubmit)="onCreateUserSubmit()" class="login-form">
         <mat-form-field>
-          <input matInput formControlName="username" placeholder="{{ 'Username' | translate }}" type="text" required>
+          <input matInput formControlName="username" placeholder="{{ 'Username' | translate }}" type="text" required autocomplete="username">
           <mat-error *ngIf="createUserForm.controls['username'].invalid && (createUserForm.controls['username'].dirty || createUserForm.controls['username'].touched)">
             <span *ngIf="createUserForm.controls['username']?.errors?.['required']">{{ 'Username is required.' | translate }}</span>
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput formControlName="password" placeholder="{{ 'Password' | translate }}" type="password" required>
+          <input matInput formControlName="password" placeholder="{{ 'Password' | translate }}" type="password" required autocomplete="new-password">
           <mat-error *ngIf="createUserForm.controls['password'].invalid && (createUserForm.controls['password'].dirty || createUserForm.controls['password'].touched)">
             <span *ngIf="createUserForm.controls['password']?.errors?.['required']">{{ 'Password is required.' | translate }}</span>
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput formControlName="confirmPassword" placeholder="{{ 'Confirm Password' | translate }}" type="password" required>
+          <input matInput formControlName="confirmPassword" placeholder="{{ 'Confirm Password' | translate }}" type="password" required autocomplete="new-password">
           <mat-error *ngIf="createUserForm.controls['confirmPassword'].invalid && (createUserForm.controls['confirmPassword'].dirty || createUserForm.controls['confirmPassword'].touched)">
             <span *ngIf="createUserForm.controls['confirmPassword']?.errors?.['required']">{{ 'Confirm Password is required.' | translate }}</span>
             <span *ngIf="createUserForm.controls['confirmPassword']?.errors?.['passwordMismatch']">{{ 'Passwords do not match.' | translate }}</span>

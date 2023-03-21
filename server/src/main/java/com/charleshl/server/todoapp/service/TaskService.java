@@ -1,3 +1,8 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 package com.charleshl.server.todoapp.service;
 
 import com.charleshl.server.mainframe.entity.UserDO;
@@ -6,8 +11,12 @@ import com.charleshl.server.todoapp.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * Task service class
+ *
+ * @author Charles HL
+ */
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;

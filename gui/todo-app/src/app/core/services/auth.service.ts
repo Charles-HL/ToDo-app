@@ -1,3 +1,8 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -26,6 +31,12 @@ export class AuthService {
     keepAliveService.init(this.isLoggedSubject$);
   }
 
+  /**
+   * Login method calling the API
+   * @param username username
+   * @param password password
+   * @returns Observable of LoginResponse
+   */
   login(username: string, password: string): Observable<LoginResponse> {
     let loginDto: Login = {
       username: username,
@@ -58,6 +69,10 @@ export class AuthService {
     this.emitIsLoggedSubject(false);
   }
 
+  /**
+   * Check if the user is logged in
+   * @returns true if the user is already logged in
+   */
   isAlreadyLoggedIn() {
     let currentUser = this.getLoggedUsername();
     let currentToken = this.getToken();
@@ -73,10 +88,18 @@ export class AuthService {
     return isAlreadyLogged;
   }
 
+  /**
+   * Get the token from the local storage
+   * @returns the token from the local storage
+   */
   getToken() {
     return localStorage.getItem('id_token');
   }
 
+  /**
+   * Get the username from the local storage
+   * @returns the username from the local storage
+   */
   getLoggedUsername() : string | null {
     const username = localStorage.getItem('currentUser');
     if (username) {

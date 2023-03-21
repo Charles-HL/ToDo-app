@@ -1,3 +1,8 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -58,7 +63,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   private matchPasswords(control: AbstractControl): ValidationErrors | null {
     const password = control.parent?.get('password');
     const confirmPassword = control.parent?.get('confirmPassword');
-    console.log("matchPasswords", control, password, confirmPassword)
 
     if (password && confirmPassword && password.value !== confirmPassword.value) {
       return { 'passwordMismatch': true };

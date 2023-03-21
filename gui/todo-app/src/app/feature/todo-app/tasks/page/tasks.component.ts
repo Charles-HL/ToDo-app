@@ -1,3 +1,8 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -26,7 +31,6 @@ export class TasksComponent implements OnInit, OnDestroy {
   constructor(private popupService: PopupService, private apiService: ApiService, private route: ActivatedRoute, private router: Router, private location: Location) { 
   }  
   ngOnInit(): void {
-    console.log('tasks init');
     this.getTasks();
   }
 
@@ -64,9 +68,9 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   private updateTaskList(res: Task) {
-    const allTasks = this.tasksUnDone.concat(this.tasksDone)
+    let allTasks = this.tasksUnDone.concat(this.tasksDone)
     const index = allTasks.findIndex(task => task.id === res.id);
-    allTasks[index] = res;
+    allTasks.splice(index, 1)
 
     let unDoneTasks: Task[] = []
     let doneTasks: Task[] = []
@@ -77,6 +81,11 @@ export class TasksComponent implements OnInit, OnDestroy {
         unDoneTasks.push(task);
       }
     });
+    if (res.done === true) {
+      doneTasks.unshift(res);
+    } else {
+      unDoneTasks.unshift(res);
+    }
     this.tasksUnDone = unDoneTasks;
     this.tasksDone = doneTasks;
   }
@@ -86,7 +95,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.location.replaceState('/task/' + id);
     this.taskId = id;
     this.apiService.getTask(id).pipe(catchError((err: HttpErrorResponse) => {
-      // if task not found, return to task list
+      // if task not found or access not allowed, return to task list
       if (err.status === 404 || err.status === 401) {
         return new Observable((observer) => {
           this.taskId = undefined;
@@ -108,6 +117,20 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.location.replaceState('/task');
     this.taskId = undefined;
     this.task = undefined;
+  }
+
+  openAddTaskDialog() {
+    this.popupService.openAddTask(this.addTask.bind(this));
+  }
+
+  addTask(task: Task) {
+    this.apiService.putTask(task).subscribe((res: Task) => {
+      if (res.done === true) {
+        this.tasksDone.unshift(res);
+      } else {
+        this.tasksUnDone.unshift(res);
+      }
+    });
   }
 
 }

@@ -6,6 +6,7 @@ import { enableProdMode } from '@angular/core';
 
 if (environment.production) {
   enableProdMode();
+  window.console.debug = () => { } // Disable debug logs on production
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)

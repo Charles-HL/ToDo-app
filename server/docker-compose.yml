@@ -5,6 +5,7 @@ services:
     image: postgres
     ports:
       - "5432:5432"
+    restart: always
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
@@ -13,7 +14,10 @@ services:
       - db_data:/var/lib/postgresql/data
       - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql
   web:
-    build: ..
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
     ports:
       - "8080:8080"
     depends_on:

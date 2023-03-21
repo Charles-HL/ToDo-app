@@ -1,5 +1,5 @@
 <section
-  *ngIf="!data.taskDetail"
+  *ngIf="!data.taskDetail && !data.addTask"
   id="GenericPopup"
   class="modal-control">
   <h3 *ngIf="data.title" mat-dialog-title>{{ data.title }}</h3>
@@ -43,4 +43,32 @@
           </mat-card-content>
       </mat-card>
   </div>
+</div>
+
+<div id="addtaskContainer" class="add-task-container background-primary" *ngIf="data.addTask">
+  <mat-card-title class="add-task-title">{{ "Add task" | translate }}
+  </mat-card-title>
+  <form class="add-task-form" [formGroup]="taskForm">
+    <mat-form-field class="add-task-field" appearance="fill">
+      <mat-label>{{'Title of the task' | translate }}</mat-label>
+      <input matInput formControlName="title" required>
+      <mat-error *ngIf="taskForm.controls['title']?.errors?.['required']">{{'Task title is required' | translate }}</mat-error>
+    </mat-form-field>
+  
+    <mat-form-field class="add-task-field" appearance="fill">
+      <mat-label>{{'Description of the task' | translate }}</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+  
+    <div mat-dialog-actions class="mat-dialog-actions-container">
+      <div class="btn-actions-container">
+        <button class="btn-action-cancel" *ngIf="data.cancelAction.isActive" mat-raised-button [mat-dialog-close]="undefined" color="accent">
+          {{data.cancelAction.action_label | translate}}
+        </button >
+        <button class="btn-action-validate" *ngIf="data.validateAction.isActive" mat-raised-button [mat-dialog-close]="{id: -1, done: false, name: taskForm.get('title')?.value, description: taskForm.get('description')?.value}" color="secondary">
+          {{data.validateAction.action_label | translate}}
+        </button >
+      </div>
+    </div>
+  </form>  
 </div>

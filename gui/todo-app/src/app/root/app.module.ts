@@ -18,6 +18,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {APP_BASE_HREF} from '@angular/common';
+import {environment} from "./../../environments/environment";
 
 @NgModule({
   declarations: [
@@ -50,6 +52,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
+    },
+    {
+      provide: APP_BASE_HREF, 
+      useValue: environment.HREF_BASE_PATH
     }
   ],
   bootstrap: [AppComponent]
@@ -58,5 +64,5 @@ export class AppModule { }
 
 // AOT compilation support
 export function httptTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, environment.HREF_BASE_PATH+'/assets/i18n/');
 }

@@ -1,3 +1,8 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { ApiService } from './api.service';
@@ -21,11 +26,11 @@ export class KeepAliveAuthService implements OnDestroy {
 
   private updateStatusKeepAlive(isLogged : boolean) {
     if (isLogged && !this.isKeepAliveStarted) {
-      console.log("Starting the keep alive to keep the auth with the server...");
+      console.debug("Starting the keep alive to keep the auth with the server...");
       this.keepAliveInterval = window.setInterval(() => this.apiService.postKeepAlive().subscribe(), this.keepAliveAuthApiPeriodInMinute*60*1000);
       this.isKeepAliveStarted = true;
     } else if (!isLogged && this.isKeepAliveStarted){
-      console.log("Stopping the keep alive to keep the auth with the server.");
+      console.debug("Stopping the keep alive to keep the auth with the server.");
       this.stopKeepAlive();
     }
   }

@@ -1,8 +1,12 @@
+/**
+ * -------------------------------------------------------------------------
+ * Copyright (c) 2023 Charles HL. All rights reserved
+ * -------------------------------------------------------------------------
+ */
 package com.charleshl.server.mainframe.config;
 
 import com.charleshl.server.mainframe.config.jwt.JwtTokenFilter;
 import com.charleshl.server.mainframe.config.jwt.JwtTokenProvider;
-import com.charleshl.server.mainframe.service.MyUserDetailsService;
 import com.charleshl.server.mainframe.service.SessionService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +24,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.List;
 
 
@@ -37,12 +40,12 @@ public class SecurityConfig {
     /**
      * Session service
      */
-    private SessionService sessionService;
+    private final SessionService sessionService;
 
     /**
      * JWT token provider
      */
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
     /**
      * Constructor
